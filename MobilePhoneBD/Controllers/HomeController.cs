@@ -92,41 +92,7 @@ namespace MobilePhoneBD.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateViewModel model)
         {
-            bool hard = false;
-            if (!String.IsNullOrWhiteSpace(model.NewCat))
-            {
-                Category category = new Category
-                {
-                    Name = model.NewCat
-                };
-                db.Category.Add(category);
-                db.SaveChanges();
-                model.CatId = category.Id;
-                if (String.IsNullOrWhiteSpace(model.NewMan))
-                {
-                    int id = db.Category.FirstOrDefault(x => x.Name == model.NewMan).Id;
-                    Manufacturers man = new Manufacturers
-                    {
-                        CategoryId = id,
-                        Name = model.NewMan
-                    };
-                    db.Мanufacturers.Add(man);
-                    db.SaveChanges();
-                    hard = true;
-                    model.ManId = man.Id;
-                }
-            }
-            if (!String.IsNullOrWhiteSpace(model.NewMan))
-            {
-                Manufacturers man1 = new Manufacturers
-                {
-                    CategoryId = model.CatId,
-                    Name = model.NewMan
-                };
-                db.Мanufacturers.Add(man1);
-                db.SaveChanges();
-                model.ManId = man1.Id;
-            }
+            
             string path = " ";
             if (model.UploadedFile != null)
             {
