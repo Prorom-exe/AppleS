@@ -1,0 +1,64 @@
+﻿@model MobilePhoneBD.Models.ViewMode.IndexViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<div class="text-center row justify-content-between">
+    <form asp-action="Index">
+        <select name="catId" onchange="GetMan()" id="cat">
+            <option value="0">Все</option>
+            @foreach (var cat in Model.Category)
+            {
+                <option value="@cat.Id">@cat.Name</option>
+            }
+        </select>
+        <select name="manId" id="man" class="m-2">
+            <option value="0">Все</option>
+        </select>
+        <button type="submit" class="btn btn-info">Показать</button>
+    </form>
+    <div>
+        <button class=" btn btn-outline-primary" onclick="location.href='/home/createcat'">Категории и производители</button>
+    </div>
+    <div>
+        <button class=" btn btn-primary" onclick="location.href='/home/create'">Создать</button>
+    </div>
+</div>
+<div>
+    <div class="card border shadow-lg m-2">
+        <table class="table">
+            <thead><tr><th>Фото</th><th>Название</th><th>Описание</th><th>Цена</th><th>Количество</th><th>Добавление</th><th></th><th></th></tr></thead>
+            <tbody>
+                @foreach (var prod in Model.Products)
+                {
+                    <tr>
+                        <td><img style="width:100px" src="@prod.Link" /></td>
+                        <td>@prod.Name</td>
+                        <td>@prod.Description</td>
+                        <td>@prod.Price</td>
+                        <td>@prod.Quality</td>
+                        <td class="col-6">
+                            <form asp-action="Add" asp-controller="Basket">
+                                <input type="hidden" value="@prod.Id" name="id" />
+                                <input type="number" class="form-control col-5 mt-1" max="@prod.Quality" min="1"  name="quantity"/>
+                                <input type="submit" class="btn btn-success" value="Добавить" />
+
+                            </form>
+                        </td>
+                        <td><button class="btn btn-info" type="submit" onclick="location.href ='/home/edit?id=@prod.Id'">Изменить</button></td>
+                        <td>
+                            <form asp-action="Delete">
+                                <input type="hidden" value="@prod.Id" name="id" />
+                                <input type="submit" class="btn btn-danger" value="Удалить" />
+                            </form>
+                        </td>
+                    </tr>
+
+
+                }
+            </tbody>
+        </table>
+        </div>
+    </div>
+
